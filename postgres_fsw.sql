@@ -1,17 +1,17 @@
 -- ON the server with data 
-CREATE USER ks_dmp85_dmp_dict WITH PASSWORD 'passwd';
+CREATE USER server85_dmp_dict WITH PASSWORD 'passwd';
 --special user for reading data
 GRANT
 SELECT
-    ON dmp.dict.ireg_roaming_partners TO ks_dmp85_dmp_dict GRANT CONNECT ON DATABASE dmp TO ks_dmp85_dmp_dict GRANT USAGE ON SCHEMA dict TO ks_dmp85_dmp_dict --ON the server where the query will be running
+    ON dmp.dict.ireg_roaming_partners TO ks_dmp85_dmp_dict GRANT CONNECT ON DATABASE db TO server85_dmp_dict GRANT USAGE ON SCHEMA dict TO server85_dmp_dict --ON the server where the query will be running
     CREATE SERVER ks_dmp31 FOREIGN DATA WRAPPER postgres_fdw OPTIONS (
-        host 'ks-dmp31.kyivstar.ua',
-        dbname 'dmp',
+        host 'server85_dmp_dict',
+        dbname 'db',
         port '5432'
     );
-CREATE USER MAPPING FOR public SERVER ks_dmp31 OPTIONS(user 'ks_dmp85_dmp_dict', PASSWORD 'jw8s0F4');
+CREATE USER MAPPING FOR public SERVER ks_dmp31 OPTIONS(user 'server85_dmp_dict', PASSWORD '123');
 --OR
-CREATE USER MAPPING FOR ks_dmp85_dmp_dict SERVER ks_dmp31 OPTIONS(user 'ks_dmp85_dmp_dict', PASSWORD 'jw8s0F4');
+CREATE USER MAPPING FOR server85_dmp_dict SERVER ks_dmp31 OPTIONS(user 'server85_dmp_dict', PASSWORD '123');
 --follow the original structure of the table
 CREATE FOREIGN TABLE dict.ireg_roaming_partners (
     country_cd text NULL,
